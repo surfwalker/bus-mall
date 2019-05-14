@@ -1,0 +1,115 @@
+/* ENTIRE PAGE */
+
+body {
+  font-family: helvetica, sans-serif;
+}
+
+/* HEADER */
+
+header {
+  height: 100px;
+  background: #444;
+}
+
+nav {
+  width: 960px;
+  margin: 0px auto;
+  font-size: 20px;
+}
+
+header img {
+  float: left;
+  margin-top: 15px;
+  margin-right: 60px;
+  width: 200px;
+  height: 70px;
+}
+
+header li {
+  display: inline-block;
+  margin-right: 75px;
+  margin-top: 40px;
+}
+
+a {
+  color: #888;
+  text-decoration: none;
+}
+
+/* MAIN - SUB-BANNERS */
+
+main {
+  width: 960px;
+  margin: 30px auto;
+}
+
+h1 {
+  
+}
+
+main li {
+  float: left;
+  margin: 30px 30px 30px 0px;
+}
+
+#imgLeft {
+  width:285px;
+  height:285px;
+}
+
+#imgCenter {
+  width:285px;
+  height:285px;
+}
+
+#imgRight {
+  width:285px;
+  height:285px;
+  margin-right: 0px;
+}
+
+main li:last-child {
+  margin-right: 0px;
+}
+
+/* MAIN - FEATURED SECTION */
+
+section div {
+  width: calc(50% - 30px);
+}
+
+div h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+div p {
+  height: 316px;
+  font-size: 18px;
+  font-style: italic;
+  line-height: 25px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+div button {
+  padding: 10px 30px;
+  background: #000;
+  color: #fff;
+  border-radius: 2px;
+  font-size: 20px;
+  transition: 350ms;
+  width: 500px;
+  margin-left: 230px;
+}
+
+button:hover {
+  background: gray;
+}
+
+/* FOOTER */
+
+footer {
+  height: 100px;
+  background: #444;
+}
