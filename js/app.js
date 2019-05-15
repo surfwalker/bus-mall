@@ -169,7 +169,12 @@ function drawChart() {
     options: {
       title: {
         display: true,
-        text: 'Bus Mall Survey Results'
+        text: 'Bus Mall Survey Results', 
+        fontWeight: "bolder",
+        fontColor: "#444",
+        fontFamily: "tahoma",        
+        fontSize: 25,
+        padding: 10 
     },
       responsive: false,
       animation: {
