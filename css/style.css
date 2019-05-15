@@ -11,6 +11,10 @@ header {
   background: #444;
 }
 
+h1 {
+  margin-left: 340px;
+}
+
 nav {
   width: 960px;
   margin: 0px auto;
