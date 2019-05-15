@@ -127,6 +127,7 @@ function handleImageSetClick(event) {
 var data = {
   labels: chartImageNamesArray, // image names array we declared earlier
   datasets: [{
+    label: '',
     data: chartVotesArray, // votes array we declared earlier
     backgroundColor: [
       'bisque',
