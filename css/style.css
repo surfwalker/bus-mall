@@ -11,23 +11,28 @@ header {
   background: #444;
 }
 
+h1 {
+  margin-left: 340px;
+  margin-top: 60px;
+}
+
 nav {
   width: 960px;
   margin: 0px auto;
-  font-size: 20px;
+  font-size: 22px;
 }
 
 header img {
   float: left;
-  margin-top: 15px;
-  margin-right: 60px;
-  width: 200px;
-  height: 70px;
+  margin-top: 10px;
+  margin-right: 90px;
+  width: 220px;
+  height: 110px;
 }
 
 header li {
   display: inline-block;
-  margin-right: 75px;
+  margin-right: 85px;
   margin-top: 40px;
 }
 
@@ -45,7 +50,7 @@ main {
 
 section li {
   float: left;
-  margin: 30px 30px 30px 0px;
+  margin: 40px 30px 30px 0px;
 }
 
 #imgLeft {
@@ -101,6 +106,14 @@ div button {
   transition: 350ms;
   width: 500px;
   margin-left: 244px;
+}
+
+canvas {
+  margin: 0px auto;
+}
+
+button {
+  visibility: hidden;
 }
 
 button:hover {
