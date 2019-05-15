@@ -1,20 +1,21 @@
 'use strict';
 
 // Global variables
+var displayResults = document.getElementById('display-results');
 var imageSet = document.getElementById('imageset');
 var imgLeft = document.getElementById('imgLeft');
 var imgCenter = document.getElementById('imgCenter');
 var imgRight = document.getElementById('imgRight');
-var currentImageSet = [];
-var lastImageSet = [];
 var imagesArray = [];
+var randomIndexArray = [];
+var votesRemaining = 25;
 
 // Constructor
 function BusMallImage(name) {
   this.name = name;
   this.filepath = `img/${name}.jpg`;
   this.timesShown = 0;
-  this.timesSelected = 0;
+  this.votes = 0;
   imagesArray.push(this);
 }
 
@@ -41,57 +42,71 @@ new BusMallImage('water-can');
 new BusMallImage('wine-glass');
 
 // Load new set of three seperate images
-function loadNewImageSet() {
-  // get 3 random numbers to index the imagesArray with
-  var random1, random2, random3;
-  // assign each random variable a random number
-  random1 = Math.floor(Math.random() * imagesArray.length);
-  random2 = Math.floor(Math.random() * imagesArray.length);
-  random3 = Math.floor(Math.random() * imagesArray.length);
-  // check for duplicates and for repetition with previous image set
-  checkForDuplicates(random1, random2, random3);
+function loadNewImageSet(imageElement) {
+  // get a random number with which to index the imagesArray with
+  var randomIndex = Math.floor(Math.random() * imagesArray.length);
+  console.log('randomIndex is :', randomIndex);
 
-  
+  // check for duplicates and for repetition with previous image set
+  while (randomIndexArray.includes(randomIndex)) {
+    console.log('Hello from inside while loop with randomIndex: ', randomIndex);
+    // if randomIndex already exists in randomIndexArray then assign another random number
+    randomIndex = Math.floor(Math.random() * imagesArray.length);
+  }
+  // add randomIndex to the start of randomIndexArray
+  randomIndexArray.unshift(randomIndex);
+
   // assign src
-  imgLeft.src = imagesArray[Math.floor(Math.random() * imagesArray.length)].filepath;
-  imgCenter.src = imagesArray[Math.floor(Math.random() * imagesArray.length)].filepath;
-  imgRight.src = imagesArray[Math.floor(Math.random() * imagesArray.length)].filepath;
-  // // assign title
-  // imgLeft.title = goatArray[randomIndex].name;
-  // // assign alt
-  // imgLeft.alt = goatArray[randomIndex].name;
-  // // increment time shown
-  // goatArray[randomIndex].timesShown++;
+  imageElement.src = imagesArray[randomIndex].filepath;
+
+  // assign title
+  imageElement.title = imagesArray[randomIndex].name;
+
+  // assign alt
+  imageElement.alt = imagesArray[randomIndex].name;
+
+  // increment time shown
+  imagesArray[randomIndex].timesShown++;
+
+  while(randomIndexArray.length > 6) {
+    randomIndexArray.pop();
+  }
 }
 
-function checkForDuplicates(num1, num2, num3) {
-  // check for duplicate numbers within current image set
-  if ((num1 === num2) || (num2 === num3)) {
-    loadNewImageSet();
+function renderResults() {
+  console.log(displayResults);
+  for (var i = 0; i < imagesArray.length; i++) {
+    var liEl = document.createElement('li');
+    liEl.textContent = `${imagesArray[i].name} was shown ${imagesArray[i].timesShown} times and received ${imagesArray[i].votes} votes`;
+    displayResults.appendChild(liEl);
   }
-  // if there are no duplicates in currrent image set then 
-  // check for duplicate numbers between current and last image set
-  
 }
 
 function handleImageSetClick(event) {
-  this.timesSelected++;
+
+  votesRemaining--;
+
+  if(votesRemaining === 0) {
+    renderResults();
+    imageSet.removeEventListener('click', handleImageSetClick);
+    alert("That's the end of this survey. Please scroll down for the results.");
+  }
+
+  var imageName = event.target.title;
+  console.log('My event target title is ', event.target.title);
+
+  for (var i = 0; i < imagesArray.length; i++) {
+    if(imagesArray[i].name === imageName) {
+      imagesArray[i].votes++;
+    }
+  }
+
+  loadNewImageSet(imgLeft);
+  loadNewImageSet(imgCenter);
+  loadNewImageSet(imgRight);
 }
 
-loadNewImageSet();
-
 imageSet.addEventListener('click', handleImageSetClick);
-
-// Event handler
-// function handleGoatClick(event){
-//   if(event.target.alt === 'sassy-goat'){
-//     alert('BAAAAAAAAAAAAAA I AM SASSY');
-//   }
-//   showARandomGoat();
-// }
-
-// Stuff that runs on page load
-// Event listener
-//goatpic.addEventListener('click', handleGoatClick);
-// Show the first goat
-//showARandomGoat();
+loadNewImageSet(imgLeft);
+loadNewImageSet(imgCenter);
+loadNewImageSet(imgRight);
