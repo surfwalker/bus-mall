@@ -6,9 +6,14 @@ var imageSet = document.getElementById('imageset');
 var imgLeft = document.getElementById('imgLeft');
 var imgCenter = document.getElementById('imgCenter');
 var imgRight = document.getElementById('imgRight');
+var drawChartButton = document.getElementById('draw-chart');
 var imagesArray = [];
 var randomIndexArray = [];
 var votesRemaining = 25;
+var chartDrawn = false;
+var chartVotesArray = [];
+var chartImageNamesArray = [];
+var busMallChart;
 
 // Constructor
 function BusMallImage(name) {
@@ -73,6 +78,13 @@ function loadNewImageSet(imageElement) {
   }
 }
 
+function updateChartArrays() {
+  for (var i = 0; i < imagesArray.length; i++) {
+    chartVotesArray[i] = imagesArray[i].votes;
+    chartImageNamesArray[i] = imagesArray[i].name;
+  }
+}
+
 function renderResults() {
   console.log(displayResults);
   for (var i = 0; i < imagesArray.length; i++) {
@@ -87,9 +99,9 @@ function handleImageSetClick(event) {
   votesRemaining--;
 
   if(votesRemaining === 0) {
-    renderResults();
     imageSet.removeEventListener('click', handleImageSetClick);
-    alert("That's the end of this survey. Please scroll down for the results.");
+    updateChartArrays();
+    drawChartButton.style.visibility = 'visible';
   }
 
   var imageName = event.target.title;
@@ -105,6 +117,106 @@ function handleImageSetClick(event) {
   loadNewImageSet(imgCenter);
   loadNewImageSet(imgRight);
 }
+
+// ++++++++++++++++++++++++++++++++++++++++++++
+// CHART STUFF
+// Charts rendered using Chart JS v.2.7.2
+// http://www.chartjs.org/
+// ++++++++++++++++++++++++++++++++++++++++++++
+
+var data = {
+  labels: chartImageNamesArray, // image names array we declared earlier
+  datasets: [{
+    data: chartVotesArray, // votes array we declared earlier
+    backgroundColor: [
+      'bisque',
+      'darkgray',
+      'burlywood',
+      'lightblue',
+      'navy',
+      'red',
+      'gold',
+      'orange',
+      'green',
+      'yellow',
+      'black',
+      'brown',
+      'pink',
+      'blue',
+      'lilac',
+      'bisque',
+      'darkgray',
+      'burlywood',
+      'lightblue',
+      'navy'
+    ],
+    hoverBackgroundColor: [
+      'purple',
+      'purple',
+      'purple',
+      'purple',
+      'purple'
+    ]
+  }]
+};
+
+function drawChart() {
+  var ctx = document.getElementById('busmall-chart').getContext('2d');
+  busMallChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: {
+      title: {
+        display: true,
+        text: 'Bus Mall Survey Results'
+    },
+      responsive: false,
+      animation: {
+        duration: 2000,
+        easing: 'easeOutBounce'
+      }
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          max: 10,
+          min: 0,
+          stepSize: 1.0
+        }
+      }]
+    }
+  });
+  chartDrawn = true;
+}
+
+// ++++++++++++++++++++++++++++++++++++++++++++
+// EVENT LISTENERS
+// ++++++++++++++++++++++++++++++++++++++++++++
+
+drawChartButton.addEventListener('click', function() {
+  drawChart();
+  console.log('chart was drawn');
+});
+
+// document.getElementById('list-button').addEventListener('click', function() {
+//   showSongsAsList();
+// });
+
+// document.getElementById('list-button').addEventListener('click', showSongsAsList);
+
+// document.getElementById('funky-list').addEventListener('click', function() {
+//   document.getElementById('funky-list').hidden = true;
+// });
+
+// document.getElementById('voting').addEventListener('click', function(event) {
+//   if (event.target.id !== 'voting') {
+//     tallyVote(event.target.id);
+//   };
+
+//   if (chartDrawn) {
+//     songChart.update();
+//   }
+// });
 
 imageSet.addEventListener('click', handleImageSetClick);
 loadNewImageSet(imgLeft);

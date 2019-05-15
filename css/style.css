@@ -20,14 +20,14 @@ nav {
 header img {
   float: left;
   margin-top: 15px;
-  margin-right: 60px;
+  margin-right: 90px;
   width: 200px;
   height: 70px;
 }
 
 header li {
   display: inline-block;
-  margin-right: 75px;
+  margin-right: 85px;
   margin-top: 40px;
 }
 
@@ -101,6 +101,14 @@ div button {
   transition: 350ms;
   width: 500px;
   margin-left: 244px;
+}
+
+canvas {
+  margin: 0px auto;
+}
+
+button {
+  visibility: hidden;
 }
 
 button:hover {
