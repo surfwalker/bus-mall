@@ -46,6 +46,11 @@ new BusMallImage('usb');
 new BusMallImage('water-can');
 new BusMallImage('wine-glass');
 
+// check to see if data is already in local storage and if so then load that data
+if(localStorage.busMallData) {
+  loadStoredData();
+}
+
 // Load new set of three seperate images
 function loadNewImageSet(imageElement) {
   // get a random number with which to index the imagesArray with
@@ -54,7 +59,6 @@ function loadNewImageSet(imageElement) {
 
   // check for duplicates and for repetition with previous image set
   while (randomIndexArray.includes(randomIndex)) {
-    console.log('Hello from inside while loop with randomIndex: ', randomIndex);
     // if randomIndex already exists in randomIndexArray then assign another random number
     randomIndex = Math.floor(Math.random() * imagesArray.length);
   }
@@ -78,6 +82,16 @@ function loadNewImageSet(imageElement) {
   }
 }
 
+function loadStoredData() {
+  console.log('Hello from inside loadStoredData()');
+  imagesArray = JSON.parse(localStorage.getItem('busMallData'));
+}
+
+function saveToLocalStorage() {
+  console.table(imagesArray);
+  localStorage.setItem('busMallData', JSON.stringify(imagesArray));
+}
+
 function updateChartArrays() {
   for (var i = 0; i < imagesArray.length; i++) {
     chartVotesArray[i] = imagesArray[i].votes;
@@ -85,24 +99,9 @@ function updateChartArrays() {
   }
 }
 
-function renderResults() {
-  console.log(displayResults);
-  for (var i = 0; i < imagesArray.length; i++) {
-    var liEl = document.createElement('li');
-    liEl.textContent = `${imagesArray[i].name} was shown ${imagesArray[i].timesShown} times and received ${imagesArray[i].votes} votes`;
-    displayResults.appendChild(liEl);
-  }
-}
-
 function handleImageSetClick(event) {
 
   votesRemaining--;
-
-  if(votesRemaining === 0) {
-    imageSet.removeEventListener('click', handleImageSetClick);
-    updateChartArrays();
-    drawChartButton.style.visibility = 'visible';
-  }
 
   var imageName = event.target.title;
   console.log('My event target title is ', event.target.title);
@@ -111,6 +110,13 @@ function handleImageSetClick(event) {
     if(imagesArray[i].name === imageName) {
       imagesArray[i].votes++;
     }
+  }
+
+  if(votesRemaining === 0) {
+    imageSet.removeEventListener('click', handleImageSetClick);
+    updateChartArrays();
+    drawChartButton.style.visibility = 'visible';
+    saveToLocalStorage();
   }
 
   loadNewImageSet(imgLeft);
@@ -195,34 +201,9 @@ function drawChart() {
   chartDrawn = true;
 }
 
-// ++++++++++++++++++++++++++++++++++++++++++++
-// EVENT LISTENERS
-// ++++++++++++++++++++++++++++++++++++++++++++
-
 drawChartButton.addEventListener('click', function() {
   drawChart();
-  console.log('chart was drawn');
 });
-
-// document.getElementById('list-button').addEventListener('click', function() {
-//   showSongsAsList();
-// });
-
-// document.getElementById('list-button').addEventListener('click', showSongsAsList);
-
-// document.getElementById('funky-list').addEventListener('click', function() {
-//   document.getElementById('funky-list').hidden = true;
-// });
-
-// document.getElementById('voting').addEventListener('click', function(event) {
-//   if (event.target.id !== 'voting') {
-//     tallyVote(event.target.id);
-//   };
-
-//   if (chartDrawn) {
-//     songChart.update();
-//   }
-// });
 
 imageSet.addEventListener('click', handleImageSetClick);
 loadNewImageSet(imgLeft);

@@ -75,11 +75,17 @@ section li {
   margin-right: 0px;
 }
 
+section div {
+  padding: 2em;
+  margin: 2em;
+  border: 3px solid black;
+}
+
 section li:last-child {
   margin-right: 0px;
 }
 
-section div {
+div {
   width: calc(50% - 30px);
 }
 
