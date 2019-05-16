@@ -88,6 +88,7 @@ function loadStoredData() {
 }
 
 function saveToLocalStorage() {
+  console.table(imagesArray);
   localStorage.setItem('busMallData', JSON.stringify(imagesArray));
 }
 
@@ -102,13 +103,6 @@ function handleImageSetClick(event) {
 
   votesRemaining--;
 
-  if(votesRemaining === 0) {
-    imageSet.removeEventListener('click', handleImageSetClick);
-    saveToLocalStorage();
-    updateChartArrays();
-    drawChartButton.style.visibility = 'visible';
-  }
-
   var imageName = event.target.title;
   console.log('My event target title is ', event.target.title);
 
@@ -116,6 +110,13 @@ function handleImageSetClick(event) {
     if(imagesArray[i].name === imageName) {
       imagesArray[i].votes++;
     }
+  }
+
+  if(votesRemaining === 0) {
+    imageSet.removeEventListener('click', handleImageSetClick);
+    updateChartArrays();
+    drawChartButton.style.visibility = 'visible';
+    saveToLocalStorage();
   }
 
   loadNewImageSet(imgLeft);
